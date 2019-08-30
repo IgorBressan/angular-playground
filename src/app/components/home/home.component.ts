@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   ];
 
   public selectedItems: Array<any> = [];
+  public allItems: boolean = false;
 
 
   constructor(public router: Router,
@@ -32,11 +33,15 @@ export class HomeComponent implements OnInit {
 
   onChange(item:string, isChecked: boolean) {
 
+    console.log('onChange', this.checkboxForm.value)
+
     if(isChecked) {
       this.selectedItems.push(item);
     } else {
       let index = this.selectedItems.indexOf(item);
       this.selectedItems.splice(index, 1);
+      this.allItems = false;
+      this.checkboxForm.controls['allItems'].setValue(false);
     }
 
   }
@@ -44,13 +49,15 @@ export class HomeComponent implements OnInit {
   clear() {
     this.selectedItems = [];
     this.checkboxForm.reset();
+    this.allItems = false;
   }
 
   initForms() {
 
     this.checkboxForm = this.formBuilder.group({
 
-      item: this.selectedItems
+      item: this.selectedItems,
+      allItems: this.allItems
 
     });
 
@@ -73,5 +80,24 @@ export class HomeComponent implements OnInit {
 
     this.router.navigate(['/teste'], extras);
   }
+
+  checkAll() {
+
+    if (!this.allItems) {
+
+      this.checkboxForm.controls['item'].setValue(true);
+  
+      this.selectedItems = this.items.slice();
+
+      this.allItems = true;
+
+    } else {
+
+      this.clear();
+
+    }
+    
+  }
+
 
 }

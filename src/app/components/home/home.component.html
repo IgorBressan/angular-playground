@@ -1,5 +1,19 @@
 
 <form [formGroup]="checkboxForm">
+
+  <h3>
+    <label for="allItems">
+      Selecionar Todos
+    </label>
+    <input
+      id="allItems"
+      name="allItems"
+      formControlName="allItems"
+      type="checkbox"
+      (change)="checkAll()"
+    />
+  </h3>
+
   <div *ngFor="let item of items; let i = index">
       <label for="i">
         {{item.dsc}}
@@ -12,8 +26,13 @@
         (change)="onChange(item, $event.target.checked)"
       />
   </div>
+
+  <br />
+
   <button (click)="onSubmit()">Enviar</button>
+  &nbsp;
   <button (click)="clear()">Limpar</button>
+
 </form>
 
 <br />
